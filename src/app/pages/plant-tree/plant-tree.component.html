@@ -43,7 +43,7 @@
                   <div class="mt-2">
                     <div class="flex items-center space-x-3">
                       <div class="custom-number-input h-10 w-32">
-                        <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                        <div [ngClass]="{'border-red-500': treeCount!.invalid && (treeCount!.dirty || treeCount!.touched)}" class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
                           <button type="button" (click)="changeCount(-1)" class="bg-gray-200 text-gray-600 hover:text-gray-700 hover:bg-gray-300 h-full w-20 rounded-l cursor-pointer outline-none">
                             <span class="m-auto text-2xl font-thin">−</span>
                           </button>
@@ -52,6 +52,14 @@
                             <span class="m-auto text-2xl font-thin">+</span>
                           </button>
                         </div>
+                      </div>
+                    </div>
+                    <div *ngIf="treeCount!.invalid && (treeCount!.dirty || treeCount!.touched)" class="text-xs text-red-500 mt-2">
+                      <div *ngIf="treeCount!.errors?.['required']">
+                        Amount is required.
+                      </div>
+                      <div *ngIf="treeCount!.errors?.['min']">
+                        You must plant a minimum of one tree.
                       </div>
                     </div>
                   </div>
