@@ -1,0 +1,42 @@
+<app-modal-internal>
+  <div header>
+    <input [(ngModel)]="searchParam"
+           (ngModelChange)="onSearchParamChanged($event)"
+           type="text"
+           class="w-full rounded-md border-0 bg-gray-100 px-4 py-2.5 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+           placeholder="Search Projects..."
+           role="combobox"
+           aria-expanded="false"
+           aria-controls="options">
+  </div>
+
+  <div body>
+    <a *ngFor="let project of projects" queryParamsHandling="preserve" [routerLink]="['./', project.id]"  class="relative rounded-lg border border-gray-300 bg-white px-4 py-3 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 mb-2">
+      <div class="flex-shrink-0">
+        <div class="h-14 w-14 rounded-lg bg-indigo-400 flex items-center justify-center">
+          <i class="text-2xl text-white fa-solid fa-trees"></i>
+        </div>
+      </div>
+      <div class="flex-1 min-w-0">
+        <a href="#" class="focus:outline-none">
+          <span class="absolute inset-0" aria-hidden="true"></span>
+          <p class="text-sm font-medium text-gray-900">{{project.name}}</p>
+          <p class="text-sm text-gray-500 truncate">{{project.reforestationProjectDescription_en}}</p>
+        </a>
+      </div>
+      <i class="text-gray-300 mr-4 text-md fa-solid fa-arrow-right-long"></i>
+    </a>
+
+    <ng-container *ngIf="searchParam != '' && projects.length == 0">
+      <div class="flex items-center justify-center flex-col mt-20">
+        <div>
+          <i class="text-5xl fa-solid fa-face-sad-sweat text-gray-300"></i>
+          <i class="text-5xl fa-solid fa-triangle-exclamation text-gray-300"></i>
+          <i class="text-5xl fa-solid fa-tree-deciduous text-gray-300"></i>
+        </div>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No projects</h3>
+        <p class="mt-1 text-sm text-gray-500">Try searching for something else, okay?</p>
+      </div>
+    </ng-container>
+  </div>
+</app-modal-internal>
