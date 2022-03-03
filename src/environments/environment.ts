@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   digitalHumaniEnterpriseId: "14da9921",
+  gqlBaseUrl: "http://localhost:3000/graphql"
 };
 
 /*

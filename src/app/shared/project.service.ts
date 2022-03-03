@@ -2,55 +2,37 @@ import { Injectable } from '@angular/core';
 import { Apollo, gql } from "apollo-angular";
 import { map, Observable, of } from "rxjs";
 
-export interface SearchProjects {
+export interface ProjectStub {
   name: string;
   reforestationProjectDescription_en: string;
   id: string;
 }
 
 export interface SearchProjectsResult {
-  searchProjects: SearchProjects[];
-}
-
-export interface Project {
-  id: string;
-  name: string;
-  reforestationCompanyName_en: string;
-  description: string;
-  reforestationCompanyAddress_en: string;
-  reforestationCompanyWebsite_en: string;
-  reforestationProjectCountry_en: string;
-  reforestationProjectDescription_en: string;
-  reforestationProjectImageURL_en: string;
-  reforestationProjectState_en: string;
-  reforestationProjectWebsite_en: string;
-}
-
-export interface GetProjectResult {
-  project: Project;
+  searchProjects: ProjectStub[];
 }
 
 export interface GetAllProjectsResult {
-  allProjects: SearchProjects[];
+  allProjects: ProjectStub[];
 }
 
-export interface PlantTree {
-  enterpriseId: string;
-  projectId: string;
-  user: string;
-  treeCount: number;
-}
-
-const PLANT_TREE = gql`
-mutation PlantTree($enterpriseId: String!, $projectId: String!, $user: String!, $treeCount: Int!) {
-  plantTree(enterpriseId: $enterpriseId, projectId: $projectId, user: $user, treeCount: $treeCount) {
-    projectId
-    uuid
-    user
-    treeCount
-    enterpriseId
+export interface GetProjectDetailsResult {
+  project: {
+    id: string;
+    name: string;
+    reforestationCompanyName_en: string;
+    description: string;
+    reforestationCompanyAddress_en: string;
+    reforestationCompanyWebsite_en: string;
+    reforestationProjectCountry_en: string;
+    reforestationProjectDescription_en: string;
+    reforestationProjectImageURL_en: string;
+    reforestationProjectState_en: string;
+    reforestationProjectWebsite_en: string;
   }
-}`;
+}
+
+export type Project = GetProjectDetailsResult['project'];
 
 const GET_PROJECT = gql`
   query Project($projectId: String!) {
@@ -95,7 +77,7 @@ const GET_ALL_PROJECTS = gql`
 })
 export class ProjectService {
 
-  allProjectsCache: SearchProjects[] = [];
+  allProjectsCache: ProjectStub[] = [];
   useLocalSearch = true;
 
   constructor(private apollo: Apollo) { }
@@ -105,7 +87,7 @@ export class ProjectService {
   */
   getProject(projectId: string): Observable<Project> {
     return this.apollo
-      .query<GetProjectResult>({
+      .query<GetProjectDetailsResult>({
         query: GET_PROJECT,
         variables: {projectId}
       }).pipe(map((result) => {
@@ -116,7 +98,7 @@ export class ProjectService {
   /*
   * Get All Projects
   */
-  getAllProjects(): Observable<SearchProjects[]> {
+  getAllProjects(): Observable<ProjectStub[]> {
     if(this.allProjectsCache.length != 0) return of(this.allProjectsCache);
     return this.apollo.query<GetAllProjectsResult>({
       query: GET_ALL_PROJECTS,
@@ -130,7 +112,7 @@ export class ProjectService {
   Search projects using a GraphQL query, this is slow because the serverless environment implements no
   caching as of right now for the proxied http call.
   */
-  searchProjects(substring: string): Observable<SearchProjects[]> {
+  searchProjects(substring: string): Observable<ProjectStub[]> {
     if(this.useLocalSearch) {
       return this.searchProjectsLocal(substring);
     }
@@ -141,7 +123,7 @@ export class ProjectService {
   Search projects using a GraphQL query, this is slow because the serverless environment implements no
   caching as of right now for the proxied http call.
   */
-  searchProjectsAPI(substring: string): Observable<SearchProjects[]> {
+  searchProjectsAPI(substring: string): Observable<ProjectStub[]> {
     return this.apollo.query<SearchProjectsResult>({
       query: SEARCH_PROJECTS,
       variables: {substring}
@@ -155,7 +137,7 @@ export class ProjectService {
   */
   private searchProjectsLocal(substring: string) {
     return this.getAllProjects().pipe(map((result) => {
-      return result.filter((project: SearchProjects) => {
+      return result.filter((project: ProjectStub) => {
         return project.name.toLowerCase().match(substring.toLowerCase());
       });
     }));

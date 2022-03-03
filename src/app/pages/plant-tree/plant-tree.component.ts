@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Project, ProjectService } from "../../shared/project.service";
+import { Project, ProjectService} from "../../shared/project.service";
 import { ActivatedRoute } from "@angular/router";
 import { PlantTreeResult, TreeService} from 'src/app/shared/tree.service';
 import { environment } from '../../../environments/environment';

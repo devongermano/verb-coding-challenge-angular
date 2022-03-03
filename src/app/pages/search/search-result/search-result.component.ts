@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { Project, ProjectService } from 'src/app/shared/project.service';
+import { Project, ProjectService} from 'src/app/shared/project.service';
 
 @Component({
   selector: 'app-search-result',

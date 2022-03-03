@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
@@ -10,6 +9,7 @@ import { InMemoryCache } from "@apollo/client/core";
 import { HttpClientModule } from "@angular/common/http";
 import { PlantTreeComponent } from './pages/plant-tree/plant-tree.component';
 import { FormsModule } from "@angular/forms";
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -32,7 +32,7 @@ import { FormsModule } from "@angular/forms";
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: 'http://localhost:3000/graphql',
+            uri: environment.gqlBaseUrl,
           }),
         };
       },

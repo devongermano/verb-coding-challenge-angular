@@ -44,7 +44,6 @@ export class TreeService {
   * Plant tree for project by enterpriseId
   */
   plantTree(plantTreeRequest: PlantTreeRequest): Observable<PlantTreeResult["plantTree"]> {
-    console.log(plantTreeRequest);
     return this.apollo
       .mutate<PlantTreeResult>({
         mutation: PLANT_TREE_MUTATION,

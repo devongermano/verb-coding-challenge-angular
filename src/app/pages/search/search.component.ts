@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService, SearchProjects } from "../../shared/project.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import { ProjectService, ProjectStub } from "../../shared/project.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 const PROJECT_NAME_PARAM = "project-name"
 
@@ -12,7 +12,7 @@ const PROJECT_NAME_PARAM = "project-name"
 export class SearchComponent implements OnInit {
 
   searchParam: string = '';
-  projects: SearchProjects[] = [];
+  projects: ProjectStub[] = [];
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
