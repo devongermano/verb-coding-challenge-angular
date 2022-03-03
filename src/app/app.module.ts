@@ -8,7 +8,7 @@ import { HttpLink } from "apollo-angular/http";
 import { InMemoryCache } from "@apollo/client/core";
 import { HttpClientModule } from "@angular/common/http";
 import { PlantTreeComponent } from './pages/plant-tree/plant-tree.component';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { environment } from 'src/environments/environment';
 
 
@@ -24,6 +24,7 @@ import { environment } from 'src/environments/environment';
     HttpClientModule,
     ApolloModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
